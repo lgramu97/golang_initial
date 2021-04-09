@@ -1,90 +1,40 @@
 package main //nombre de carpeta donde esta guardado
 
-import (
-	"fmt"
-	"math"
-	"reflect"
-)
+import "fmt"
 
 func main() {
 
-	//Declaración de constantes
-	const pi float64 = 3.14
-	const pi2 = 3.1415
+	// Valores primitivos
 
-	fmt.Println("pi:", pi)
-	fmt.Println("pi2:", pi2)
+	// Numeros enteros.
+	var i1 int = 64   // depende del SO.
+	var i2 int8 = 127 // -128 a 127
+	var i3 int16 = 16 // 16 bits
+	var i4 int32 = 32 // 32 bits
+	var i5 int64 = 64 // 64 bits
+	fmt.Println(i1, i2, i3, i4, i5)
 
-	//Declaración variables enteras
-	base := 12          //:= indica que se crea y asigna
-	var altura int = 14 //creamos variable y asignamos valor
-	var area int        // creamos variable
+	// Numeros enteros positivos. Valores mucho mas grandes.
+	var u1 int = 64   // depende del SO.
+	var u2 int8 = 8   // 0 a 2 a la 8 -1.
+	var u3 int16 = 16 // 0 a 16 bits
+	var u4 int32 = 32 // 0 a 32 bits
+	var u5 int64 = 64 // 0 a 64 bits
+	fmt.Println(u1, u2, u3, u4, u5)
 
-	fmt.Println("Base:", base, "Altura:", altura, "Area:", area)
+	// Numeros decimales. Tiene mas alcance la parte decimal
+	var f1 float32 = 32
+	var f2 float64 = 64
+	fmt.Println(f1, f2)
 
-	//Zero values (valor por defecto para cada tipo)
-	var a int     // 0
-	var b float64 // 0
-	var c string  // " "
-	var d bool    // false
+	// Text y booleanos
+	var string string = "texto" // Entre " "
+	var booleano bool = true    // true / false
+	fmt.Println(string, booleano)
 
-	fmt.Println(a, b, c, d)
-
-	//Area de un cuadrado
-	const baseCuadrado = 10
-	areaCuadrado := baseCuadrado * baseCuadrado // infiere tipo
-
-	fmt.Println("Area cuadrado:", areaCuadrado)
-	fmt.Println(reflect.TypeOf(areaCuadrado))
-
-	x := 10
-	y := 50
-
-	// Suma
-	result := x + y
-	fmt.Println("Suma:", result)
-
-	// Resta
-	result = x - y // Sin los : ya que se definió en la primer asignación
-	fmt.Println("Resta:", result)
-
-	// Multiplicación
-	result = x * y
-	fmt.Println("Multiṕlicación:", result)
-
-	// División
-	result = y / x
-	fmt.Println("División:", result)
-
-	// Modulo (resto)
-	result = y % x
-	fmt.Println("Módulo:", result)
-
-	// Incremental
-	result += 1
-	result++
-	fmt.Println("Incremental:", result)
-
-	// Decremental
-	result -= 1
-	result--
-	fmt.Println("Decremento:", result)
-
-	// Area de Rectangulo,
-	baseRectangulo := 20
-	alturaRectangulo := 10
-	areaRectangulo := baseRectangulo * alturaRectangulo
-	fmt.Println("Area de un rectangulo:", areaRectangulo)
-
-	//Area Trapesio
-	baseTrapesio := 10
-	alturaTrapesio := 10
-	areaTrapesio := (baseTrapesio * alturaTrapesio) / 2
-	fmt.Println("Area de un trapesio:", areaTrapesio)
-
-	//Area Circulo
-	var radioCirculo float64 = 20
-	areaCirculo := math.Pi * math.Pow(radioCirculo, 2)
-	fmt.Println("Area circulo:", areaCirculo)
+	// Numeros complejos
+	var complex1 complex64 = 0  // Real e imaginario float 32
+	var complex2 complex128 = 0 // real e imaginario float64
+	fmt.Println(complex1, complex2)
 
 }
