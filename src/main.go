@@ -36,4 +36,54 @@ func main() {
 	fmt.Println("Area cuadrado:", areaCuadrado)
 	fmt.Println(reflect.TypeOf(areaCuadrado))
 
+	x := 10
+	y := 50
+
+	// Suma
+	result := x + y
+	fmt.Println("Suma:", result)
+
+	// Resta
+	result = x - y // Sin los : ya que se definió en la primer asignación
+	fmt.Println("Resta:", result)
+
+	// Multiplicación
+	result = x * y
+	fmt.Println("Multiṕlicación:", result)
+
+	// División
+	result = y / x
+	fmt.Println("División:", result)
+
+	// Modulo (resto)
+	result = y % x
+	fmt.Println("Módulo:", result)
+
+	// Incremental
+	result += 1
+	result++
+	fmt.Println("Incremental:", result)
+
+	// Decremental
+	result -= 1
+	result--
+	fmt.Println("Decremento:", result)
+
+	// Area de Rectangulo,
+	baseRectangulo := 20
+	alturaRectangulo := 10
+	areaRectangulo := baseRectangulo * alturaRectangulo
+	fmt.Println("Area de un rectangulo:", areaRectangulo)
+
+	//Area Trapesio
+	baseTrapesio := 10
+	alturaTrapesio := 10
+	areaTrapesio := (baseTrapesio * alturaTrapesio) / 2
+	fmt.Println("Area de un trapesio:", areaTrapesio)
+
+	//Area Circulo
+	var radioCirculo float32 = 20
+	areaCirculo := radioCirculo * radioCirculo * pi2
+	fmt.Println("Area circulo:", areaCirculo)
+
 }
