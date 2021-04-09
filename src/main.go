@@ -35,7 +35,7 @@ func main() {
 	areaCuadrado := baseCuadrado * baseCuadrado // infiere tipo
 
 	fmt.Println("Area cuadrado:", areaCuadrado)
-	fmt.Println(reflect.TypeOf(areaCuadrado))
+	fmt.Println(reflect.TypeOf(areaCuadrado)) // Utilizo reflect para saber el tipo de la variable (como python typeof)
 
 	x := 10
 	y := 50
