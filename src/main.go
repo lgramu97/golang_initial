@@ -2,6 +2,7 @@ package main //nombre de carpeta donde esta guardado
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 )
 
@@ -82,8 +83,8 @@ func main() {
 	fmt.Println("Area de un trapesio:", areaTrapesio)
 
 	//Area Circulo
-	var radioCirculo float32 = 20
-	areaCirculo := radioCirculo * radioCirculo * pi2
+	var radioCirculo float64 = 20
+	areaCirculo := math.Pi * math.Pow(radioCirculo, 2)
 	fmt.Println("Area circulo:", areaCirculo)
 
 }
