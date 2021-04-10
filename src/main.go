@@ -4,37 +4,64 @@ import "fmt"
 
 func main() {
 
-	// Valores primitivos
+	// Declaración de variables
+	helloMessage := "hello"
+	worldMessage := "world"
 
-	// Numeros enteros.
-	var i1 int = 64   // depende del SO.
-	var i2 int8 = 127 // -128 a 127
-	var i3 int16 = 16 // 16 bits
-	var i4 int32 = 32 // 32 bits
-	var i5 int64 = 64 // 64 bits
-	fmt.Println(i1, i2, i3, i4, i5)
+	// Println (print con salto de linea)
+	fmt.Println(helloMessage, worldMessage)
 
-	// Numeros enteros positivos. Valores mucho mas grandes.
-	var u1 int = 64   // depende del SO.
-	var u2 int8 = 8   // 0 a 2 a la 8 -1.
-	var u3 int16 = 16 // 0 a 16 bits
-	var u4 int32 = 32 // 0 a 32 bits
-	var u5 int64 = 64 // 0 a 64 bits
-	fmt.Println(u1, u2, u3, u4, u5)
+	// Printf (agrega funcion extra)
+	nombre := "Tu vieja"
+	curso := 500
+	fmt.Printf("%s tiene mas de %d cursos  \n", nombre, curso)
+	fmt.Printf("%v tiene mas de %v cursos  \n", nombre, curso) // Cuando no se sabe el tipo se pone (v)
 
-	// Numeros decimales. Tiene mas alcance la parte decimal
-	var f1 float32 = 32
-	var f2 float64 = 64
-	fmt.Println(f1, f2)
+	//Sprint (genera string pero no lo imprime, lo guarda)
+	message := fmt.Sprintf("%s tiene mas de %d cursos ", nombre, curso) // Todo lo generado en Sprintf se guarda en message.
+	fmt.Println(message)
 
-	// Text y booleanos
-	var string string = "texto" // Entre " "
-	var booleano bool = true    // true / false
-	fmt.Println(string, booleano)
+	// Tipo de dato (con %T)
+	fmt.Printf("helloMessage: %T \n", helloMessage)
 
-	// Numeros complejos
-	var complex1 complex64 = 0  // Real e imaginario float 32
-	var complex2 complex128 = 0 // real e imaginario float64
-	fmt.Println(complex1, complex2)
+	// Error message
+	const name, id = "bueller", 17
+	err := fmt.Errorf("user %q (id %d) not found", name, id) // %q es para string con " "
+	fmt.Println(err.Error())                                 // fmt.Errorf retorna un string formateado que puede invocarse .Error()
 
+	//Scan
+	var input string
+	fmt.Scan(&input) // Input por pantalla
+	fmt.Printf("The string input contains: %s \n", input)
+
+	// Sscan
+	// Declaring two variables
+	var nameSscan string
+	var nameScan2 string
+	var alphabet_count int
+	// Calling the Sscan() function which
+	// returns the number of elements
+	// successfully scanned and error if
+	// it persists
+	nSscan, errSscan := fmt.Sscan("input 54 entendes?", &nameSscan, &alphabet_count, &nameScan2)
+	// Below statements get executed if there is any error
+	if errSscan != nil {
+		panic(errSscan)
+	}
+
+	// Printing the number of elements and each elements also
+	fmt.Printf("%d: %s, %d\n", nSscan, nameSscan, alphabet_count)
+
+	// Sscanf
+	// scans the argument string, storing successive space-separated values into successive
+	// arguments as determined by the format.
+	var name2 string
+	var age int
+	n, err := fmt.Sscanf("Kim is 22 years old", "%s is %d years old", &name2, &age)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%d: %s, %d\n", n, name2, age)
+
+	// For more information: https://golang.org/pkg/fmt/
 }
