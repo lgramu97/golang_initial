@@ -2,66 +2,47 @@ package main //nombre de carpeta donde esta guardado
 
 import "fmt"
 
-func main() {
-
-	// Declaración de variables
-	helloMessage := "hello"
-	worldMessage := "world"
-
-	// Println (print con salto de linea)
-	fmt.Println(helloMessage, worldMessage)
-
-	// Printf (agrega funcion extra)
-	nombre := "Tu vieja"
-	curso := 500
-	fmt.Printf("%s tiene mas de %d cursos  \n", nombre, curso)
-	fmt.Printf("%v tiene mas de %v cursos  \n", nombre, curso) // Cuando no se sabe el tipo se pone (v)
-
-	//Sprint (genera string pero no lo imprime, lo guarda)
-	message := fmt.Sprintf("%s tiene mas de %d cursos ", nombre, curso) // Todo lo generado en Sprintf se guarda en message.
+// Declaración de función
+func normalFunction(message string) {
 	fmt.Println(message)
+}
 
-	// Tipo de dato (con %T)
-	fmt.Printf("helloMessage: %T \n", helloMessage)
+func tripleArgument(a, b int, c string) { // a y b son int.
+	fmt.Println(a, b, c)
+}
 
-	// Error message
-	const name, id = "bueller", 17
-	err := fmt.Errorf("user %q (id %d) not found", name, id) // %q es para string con " "
-	fmt.Println(err.Error())                                 // fmt.Errorf retorna un string formateado que puede invocarse .Error()
+func returnValue(a int) int {
+	return a * 2
+}
 
-	//Scan
-	var input string
-	fmt.Scan(&input) // Input por pantalla
-	fmt.Printf("The string input contains: %s \n", input)
+func returnDoubleValue(a, b float32) (c, d float32) {
+	return a * b, a / b
+}
 
-	// Sscan
-	// Declaring two variables
-	var nameSscan string
-	var nameScan2 string
-	var alphabet_count int
-	// Calling the Sscan() function which
-	// returns the number of elements
-	// successfully scanned and error if
-	// it persists
-	nSscan, errSscan := fmt.Sscan("input 54 entendes?", &nameSscan, &alphabet_count, &nameScan2)
-	// Below statements get executed if there is any error
-	if errSscan != nil {
-		panic(errSscan)
-	}
+func getAreaRectangulo(base, altura float32) float32 {
+	return base * altura
+}
 
-	// Printing the number of elements and each elements also
-	fmt.Printf("%d: %s, %d\n", nSscan, nameSscan, alphabet_count)
+func getAreaRectanguloAndMetrics(base, altura float32) (a, b, result float32) {
+	return base, altura, getAreaRectangulo(base, altura)
+}
 
-	// Sscanf
-	// scans the argument string, storing successive space-separated values into successive
-	// arguments as determined by the format.
-	var name2 string
-	var age int
-	n, err := fmt.Sscanf("Kim is 22 years old", "%s is %d years old", &name2, &age)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%d: %s, %d\n", n, name2, age)
+func main() {
+	normalFunction("Hello World1")
+	tripleArgument(1, 2, "Hola")
+	result := returnValue(4)
+	fmt.Println(result)
 
-	// For more information: https://golang.org/pkg/fmt/
+	value1, value2 := returnDoubleValue(2, 4)
+	fmt.Printf("Value 1: %f , Value 2: %f \n", value1, value2)
+
+	// Si no me intersa un valor
+	value3, _ := returnDoubleValue(2, 4)
+	fmt.Printf("Value 1: %f  \n", value3)
+
+	fmt.Printf("Area de un rectangulo: %f \n", getAreaRectangulo(2, 3))
+
+	base, altura, area := getAreaRectanguloAndMetrics(4, 4)
+	fmt.Printf("El Area de un rectangulo de Base %.2f y Altura %.2f es : %.4f \n", base, altura, area)
+
 }
