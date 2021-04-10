@@ -1,48 +1,68 @@
-package main //nombre de carpeta donde esta guardado
+package main
 
 import "fmt"
 
-// Declaración de función
-func normalFunction(message string) {
-	fmt.Println(message)
-}
-
-func tripleArgument(a, b int, c string) { // a y b son int.
-	fmt.Println(a, b, c)
-}
-
-func returnValue(a int) int {
-	return a * 2
-}
-
-func returnDoubleValue(a, b float32) (c, d float32) {
-	return a * b, a / b
-}
-
-func getAreaRectangulo(base, altura float32) float32 {
-	return base * altura
-}
-
-func getAreaRectanguloAndMetrics(base, altura float32) (a, b, result float32) {
-	return base, altura, getAreaRectangulo(base, altura)
-}
-
 func main() {
-	normalFunction("Hello World1")
-	tripleArgument(1, 2, "Hola")
-	result := returnValue(4)
-	fmt.Println(result)
 
-	value1, value2 := returnDoubleValue(2, 4)
-	fmt.Printf("Value 1: %f , Value 2: %f \n", value1, value2)
+	// for condicional
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+	}
 
-	// Si no me intersa un valor
-	value3, _ := returnDoubleValue(2, 4)
-	fmt.Printf("Value 1: %f  \n", value3)
+	// for while (for hasta que se cumpla una condicion)
+	counter := 0
+	for counter < 10 {
+		fmt.Println(counter)
+		counter++
+	}
 
-	fmt.Printf("Area de un rectangulo: %f \n", getAreaRectangulo(2, 3))
+	// for forever (ciclo infinito)
+	counterForEver := 0
+	for {
+		fmt.Println("COunter forever", counterForEver)
+		counterForEver++
+		if counterForEver == 1000 {
+			break
+		}
+	}
 
-	base, altura, area := getAreaRectanguloAndMetrics(4, 4)
-	fmt.Printf("El Area de un rectangulo de Base %.2f y Altura %.2f es : %.4f \n", base, altura, area)
+	// for descendente
+	for i := counterForEver; i > 0; i-- {
+		fmt.Println("Decremento", i)
+	}
 
+	// for range.
+	//Here we use range to sum the numbers in a slice. Arrays work like this too.
+	nums := []int{2, 3, 4}
+	sum := 0
+	for _, num := range nums {
+		sum += num
+	}
+	fmt.Println("sum:", sum)
+
+	//range on arrays and slices provides both the index and value for each entry.
+	//Above we didn’t need the index, so we ignored it with the blank identifier _.
+	//Sometimes we actually want the indexes though.
+	for i, num := range nums {
+		if num == 3 {
+			fmt.Println("index:", i)
+		}
+	}
+
+	//range on map iterates over key/value pairs.
+	kvs := map[string]string{"a": "apple", "b": "banana"}
+	for k, v := range kvs {
+		fmt.Printf("%s -> %s\n", k, v)
+	}
+
+	//range can also iterate over just the keys of a map.
+	for k := range kvs {
+		fmt.Println("key:", k)
+	}
+
+	//range on strings iterates over Unicode code points.
+	//The first value is the starting byte index of the rune and the second the rune itself.
+	for i, c := range "go" {
+		fmt.Println(i, c)
+	}
 }
