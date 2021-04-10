@@ -1,52 +1,62 @@
 package main
 
-import "fmt"
-
-func isPair(number int) bool {
-	return (number % 2) == 0
-}
-
-func parOimpar(number int) {
-	if isPair(number) {
-		fmt.Printf("El numero %d es un numero par \n", number)
-	} else {
-		fmt.Printf("El numero %d es un numero impar \n", number)
-	}
-}
-
-func validateUser(userName, password string) bool {
-	return (userName == password)
-}
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
 
-	valor1 := 1
-	valor2 := 2
-
-	if valor1 == 1 {
-		fmt.Printf("Se cumple la condicion el valor es : %d \n", valor1)
-	} else {
-		fmt.Printf("Se cumple la condicion el valor es : %d \n", valor2)
+	// Definicion y parseo de variable
+	switch modulo := 4 % 2; modulo {
+	case 0:
+		fmt.Println("Es par")
+	default:
+		fmt.Println("Es impar")
 	}
 
-	if 7%2 == 0 {
-		fmt.Println("7 is even")
-	} else {
-		fmt.Println("7 is odd")
+	// Switch sin condicion (cuando quiero anidar multiples condiciones)
+	value := 54
+	switch {
+	case value > 100:
+		fmt.Println("Es mayor que 100")
+	case value < 0:
+		fmt.Println("Es menor que 0")
+	default:
+		fmt.Println("No condicion")
 	}
 
-	if 8%4 == 0 {
-		fmt.Println("8 is divisible by 4")
+	switch time.Now().Weekday() {
+	case time.Saturday, time.Sunday:
+		fmt.Println("It's the weekend")
+	default:
+		fmt.Println("It's a weekday")
 	}
 
-	if num := -2; num < 0 {
-		fmt.Println(num, "is negative")
-	} else if num < 10 {
-		fmt.Println(num, "has 1 digit")
-	} else {
-		fmt.Println(num, "has multiple digits")
+	//switch without an expression is an alternate way to express if/else logic.
+	//Here we also show how the case expressions can be non-constants.
+	t := time.Now()
+	switch {
+	case t.Hour() < 12:
+		fmt.Println("It's before noon")
+	default:
+		fmt.Println("It's after noon")
 	}
 
-	numeroCheck := 15
-	parOimpar(numeroCheck)
+	//A type switch compares types instead of values.
+	//You can use this to discover the type of an interface value.
+	//In this example, the variable t will have the type corresponding to its clause.
+	whatAmI := func(i interface{}) {
+		switch t := i.(type) {
+		case bool:
+			fmt.Println("I'm a bool")
+		case int:
+			fmt.Println("I'm an int")
+		default:
+			fmt.Printf("Don't know type %T\n", t)
+		}
+	}
+	whatAmI(true)
+	whatAmI(1)
+	whatAmI("hey")
 }
