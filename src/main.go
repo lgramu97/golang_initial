@@ -15,6 +15,10 @@ func ping(pings chan<- string, msg string) {
 	pings <- msg
 }
 
+func message(text string, c chan string) {
+	c <- text
+}
+
 // Funcion que acepta un canal con un mensaje (pings), y un canal de salida (pongs)
 func pong(pings <-chan string, pongs chan<- string) {
 	msg := <-pings
@@ -50,6 +54,43 @@ func main() {
 	ping(pings, "passed message")
 	pong(pings, pongs)
 	fmt.Println(<-pongs) // obtengo valor del canal pongs.
+
+	//************** len y cap ***********//
+	fmt.Println("*********** LEN Y CAP ***********")
+	c := make(chan string, 2)
+	c <- "Mensaje 1"
+	//c <- "Mensaje 2"
+	fmt.Println(len(c), cap(c)) // len: datos dentro del channel, cap: capacidad del channel
+	c <- "Mensaje 2"
+
+	// Range y Close
+	close(c) // Indica que el canal se cierra, no va a recibir ningun otro dato. BUENA PRACTICA.
+	//c <- "mensaje 3" //runtime error porque el canal esta cerrado.
+
+	for message := range c { // Iterar por los valores de un canal
+		fmt.Println(message)
+	}
+
+	// Select (permite esperar por multiples channels )
+	email1 := make(chan string)
+	email2 := make(chan string)
+
+	go message("Mensaje 1", email1)
+	go message("Mensaje 2", email2)
+	//No se cual responde primero, por eso utilizo select.
+	// Itero por todos los canales
+	for i := 0; i < 2; i++ {
+		select {
+		case m1 := <-email1:
+			fmt.Println("Email recibido de email 1:", m1)
+
+		case m2 := <-email2:
+			{
+				fmt.Println("Email recibido de email 2:", m2)
+			}
+		}
+	}
+
 }
 
 //When we run the program the "ping" message is successfully passed from
