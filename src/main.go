@@ -1,62 +1,59 @@
 package main
 
-import (
-	"fmt"
-	"sync"
-	"time"
-)
+import "fmt"
 
-// A goroutine is a lightweight thread of execution.
+//Channels are the pipes that connect concurrent goroutines.
+//You can send values into channels from one goroutine and receive those values into another goroutine.
+// Menos eficientes que go rutines pero mas eficientes en tiempo de desarrollo.
 
-func say(text string, wg *sync.WaitGroup) {
-	defer wg.Done() // Libero la go rutine
-	fmt.Println(text)
+func say(text string, c chan<- string) { // del lado derecho <- indica que es de salida.
+	c <- text // <- indica que se ingresa un dato
 }
 
-func f(from string) {
-	for i := 0; i < 3; i++ {
-		fmt.Println(from, ":", i)
-	}
+// Funcion que recibe un canal para enviar un mensaje y el mensaje a enviar.
+func ping(pings chan<- string, msg string) {
+	pings <- msg
+}
+
+// Funcion que acepta un canal con un mensaje (pings), y un canal de salida (pongs)
+func pong(pings <-chan string, pongs chan<- string) {
+	msg := <-pings
+	pongs <- msg
 }
 
 func main() {
-	// Como ejecutamos de forma concurrente?? Agregamos go
+	channel := make(chan string, 1) // buena practica indicar el limite
 
-	var wg sync.WaitGroup // Acumula go rutienes y las libera de a una.
-	go say("hello", &wg)
+	fmt.Println("Hello")
 
-	wg.Add(2) // Agrego una go rutine al WaitGroup
-	go say("world", &wg)
+	go say("Bye", channel)
 
-	go func(text string) {
-		fmt.Println(text)
-	}("Adios")
+	fmt.Println(<-channel) // <- obtengo la salida (respuesta del segundo go rutine)
+	// <- del lado derecho indica entrada, del lado izquierdo de salida
 
-	wg.Wait() // Espere hasta que terminen todos.
-	//time.Sleep(time.Second * 1) // no es eficiente que para ejecutar la rutina concurrente hacer un wait.
+	//*********************** CHANNELS***************************//
 
-	//************************************ GORUTINES ***********************************//
-	//Suppose we have a function call f(s). Here’s how we’d call that in the usual way,
-	//running it synchronously.
+	//Create a new channel with make(chan val-type). Channels are typed by the values they convey.
+	messages := make(chan string)
 
-	f("direct")
+	//Send a value into a channel using the channel <- syntax.
+	//Here we send "ping" to the messages channel we made above, from a new goroutine.
+	go func() { messages <- "ping" }()
 
-	//To invoke this function in a goroutine, use go f(s).
-	//This new goroutine will execute concurrently with the calling one.
-	go f("goroutine")
+	//	 The <-channel syntax receives a value from the channel.
+	//	Here we’ll receive the "ping" message we sent above and print it out.
+	msg := <-messages
+	fmt.Println(msg)
 
-	//You can also start a goroutine for an anonymous function call.
-	go func(msg string) {
-		fmt.Println(msg)
-	}("going")
-
-	//Our two function calls are running asynchronously in separate goroutines now.
-	//Wait for them to finish (for a more robust approach, use a WaitGroup).
-
-	time.Sleep(time.Second)
-	fmt.Println("done")
+	pings := make(chan string, 1) // canal de entrada
+	pongs := make(chan string, 1) // canal de salida
+	ping(pings, "passed message")
+	pong(pings, pongs)
+	fmt.Println(<-pongs) // obtengo valor del canal pongs.
 }
 
-//When we run this program, we see the output of the blocking call first,
-//then the interleaved output of the two goroutines.
-//This interleaving reflects the goroutines being run concurrently by the Go runtime.
+//When we run the program the "ping" message is successfully passed from
+//one goroutine to another via our channel.
+// By default sends and receives block until both the sender and receiver are ready.
+//This property allowed us to wait at the end of our program for the
+//"ping" message without having to use any other synchronization.
