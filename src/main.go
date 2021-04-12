@@ -21,4 +21,13 @@ func main() {
 	})
 
 	e.Logger.Fatal(e.Start(":1323"))
+
+	// go mod edit -replace src/paquete = src/nuevo para utilizar un modulo externo, editarlo y utilizarlo.
+	// go mod edit -dropreplace src/paquete  para volver al modulo original.
+
+	// go mod vendor (todo el codigo adicional para que funcione el main de forma normal)
+	// go mod tidy elimina todas las librerias no utilizadas.
+
+	// go.sum se encarga de sumariar todas las librerias utilizadas.
+
 }
