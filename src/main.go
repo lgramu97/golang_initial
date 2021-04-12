@@ -2,56 +2,61 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"sync"
+	"time"
 )
 
-// Interfaces are named collections of method signatures.
+// A goroutine is a lightweight thread of execution.
 
-//Here’s a basic interface for geometric shapes.
-type geometry interface {
-	area() float64
-	perim() float64
-}
-
-//For our example we’ll implement this interface on rect and circle types.
-type rect struct {
-	width, height float64
-}
-type circle struct {
-	radius float64
+func say(text string, wg *sync.WaitGroup) {
+	defer wg.Done() // Libero la go rutine
+	fmt.Println(text)
 }
 
-//To implement an interface in Go, we just need to implement all the methods in the interface.
-//Here we implement geometry on rects.
-func (r rect) area() float64 {
-	return r.width * r.height
-}
-func (r rect) perim() float64 {
-	return 2*r.width + 2*r.height
-}
-
-//The implementation for circles.
-func (c circle) area() float64 {
-	return math.Pi * c.radius * c.radius
-}
-func (c circle) perim() float64 {
-	return 2 * math.Pi * c.radius
-}
-
-//If a variable has an interface type, then we can call methods that are in the named interface.
-//Here’s a generic measure function taking advantage of this to work on any geometry.
-func measure(g geometry) {
-	fmt.Println(g)
-	fmt.Println(g.area())
-	fmt.Println(g.perim())
+func f(from string) {
+	for i := 0; i < 3; i++ {
+		fmt.Println(from, ":", i)
+	}
 }
 
 func main() {
-	r := rect{width: 3, height: 4}
-	c := circle{radius: 5}
+	// Como ejecutamos de forma concurrente?? Agregamos go
 
-	//The circle and rect struct types both implement the geometry interface so we can use instances
-	//of these structs as arguments to measure.
-	measure(r)
-	measure(c)
+	var wg sync.WaitGroup // Acumula go rutienes y las libera de a una.
+	go say("hello", &wg)
+
+	wg.Add(2) // Agrego una go rutine al WaitGroup
+	go say("world", &wg)
+
+	go func(text string) {
+		fmt.Println(text)
+	}("Adios")
+
+	wg.Wait() // Espere hasta que terminen todos.
+	//time.Sleep(time.Second * 1) // no es eficiente que para ejecutar la rutina concurrente hacer un wait.
+
+	//************************************ GORUTINES ***********************************//
+	//Suppose we have a function call f(s). Here’s how we’d call that in the usual way,
+	//running it synchronously.
+
+	f("direct")
+
+	//To invoke this function in a goroutine, use go f(s).
+	//This new goroutine will execute concurrently with the calling one.
+	go f("goroutine")
+
+	//You can also start a goroutine for an anonymous function call.
+	go func(msg string) {
+		fmt.Println(msg)
+	}("going")
+
+	//Our two function calls are running asynchronously in separate goroutines now.
+	//Wait for them to finish (for a more robust approach, use a WaitGroup).
+
+	time.Sleep(time.Second)
+	fmt.Println("done")
 }
+
+//When we run this program, we see the output of the blocking call first,
+//then the interleaved output of the two goroutines.
+//This interleaving reflects the goroutines being run concurrently by the Go runtime.
